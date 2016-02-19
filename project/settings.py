@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -123,6 +124,18 @@ STATIC_URL = '/static/'
 AUTH_SERVICE_CHECK_TOKEN_URL = 'http://127.0.0.1:8001/check_token/'
 AUTH_SERVICE_CHECK_PERM_URL = 'http://127.0.0.1:8001/check_perm/'
 AUTH_TOKEN = '123'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'sw_rest_auth.authentication.TokenServiceAuthentication',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+}
+
+DEVINO_LOGIN = 'tester'
+DEVINO_PASSWORD = '123'
 
 try:
     from project.local_settings import *
