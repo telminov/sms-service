@@ -7,6 +7,7 @@ from core import models
 
 class Sms(serializers.ModelSerializer):
     result = serializers.SerializerMethodField()
+    destination_address = serializers.CharField(max_length=20)
 
     class Meta:
         model = models.Sms
