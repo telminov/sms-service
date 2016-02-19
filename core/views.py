@@ -72,4 +72,10 @@ def get_state(request):
 
     qs = models.SmsPartSendState.objects.filter(sms_part__sms=sms)
     state_serializer = serializers.SmsPartSendState(qs, many=True)
-    return Response(state_serializer.data)
+
+    result = {
+        'have_problems': any([1 <= s.code <= 100 for s in qs]),
+        'all_delivered': all([s.code == 0 for s in qs]),
+        'parts': state_serializer.data,
+    }
+    return Response(result)
