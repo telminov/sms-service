@@ -30,14 +30,13 @@ class SmsSendError(models.Model):
     description = models.CharField(max_length=255, blank=True)
     dt = models.DateTimeField(auto_now_add=True)
 
-#
-# class SmsSendState(models.Model):
-#     sms = models.ForeignKey(Sms)
-#     code = models.IntegerField()
-#     description = models.CharField(max_length=255)
-#     price = models.DecimalField()
-#     creation_dt = models.DateTimeField()
-#     submitted_dt = models.DateTimeField(null=True)
-#     result_dt = models.DateTimeField()
-#     reported_dt = models.DateTimeField()
-#     dt = models.DateTimeField()
+
+class SmsPartSendState(models.Model):
+    sms_part = models.OneToOneField(SmsPart)
+    code = models.IntegerField()
+    description = models.CharField(max_length=255)
+    price = models.DecimalField(decimal_places=2, max_digits=5, null=True)
+    creation_dt = models.DateTimeField(null=True)
+    submitted_dt = models.DateTimeField(null=True)
+    result_dt = models.DateTimeField()
+    reported_dt = models.DateTimeField(null=True)

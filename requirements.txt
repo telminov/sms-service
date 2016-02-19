@@ -2,4 +2,4 @@ django==1.9.2
 djangorestframework==3.3.2
 sw-django-rest-auth==0.0.2
 sw-python-utils==0.0.5
-sw-python-sms-devino==0.0.1
+sw-python-sms-devino==0.0.2

@@ -4,4 +4,5 @@ from . import views
 
 urlpatterns = [
     url(r'^send/$', views.send),
+    url(r'^get_state/$', views.get_state),
 ]
