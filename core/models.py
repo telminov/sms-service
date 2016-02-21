@@ -11,6 +11,9 @@ class Sms(models.Model):
     validity_minutes = models.SmallIntegerField(default=0)
     dc = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return str(self.uuid)
+
 
 class SmsSendResult(models.Model):
     sms = models.OneToOneField(Sms, related_name='send_result')

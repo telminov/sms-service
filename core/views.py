@@ -2,6 +2,7 @@
 from django.conf import settings
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from rest_framework import status
 from core import serializers
 from sms_devino.client import DevinoClient, DevinoException
 from sw_rest_auth.permissions import CodePermission
@@ -29,10 +30,10 @@ def send(request):
 
     except DevinoException as ex:
         models.SmsSendResult.objects.create(sms=sms, is_success=False)
-        error_serializer = serializers.SmsSendError.process_exception(sms, ex)
+        error_serializer = serializers.SmsSendError.register_exception(sms, ex)
         error_data = error_serializer.data
         error_data['sms'] = sms_serializer.data
-        return Response(error_data, status=400)
+        return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
 
     return Response(sms_serializer.data)
 
@@ -68,7 +69,7 @@ def get_state(request):
             error_data['code'] = ex.error.code
         if ex.error and ex.error.description:
             error_data['description'] = ex.error.description
-        return Response(error_data, status=400)
+        return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
 
     qs = models.SmsPartSendState.objects.filter(sms_part__sms=sms)
     state_serializer = serializers.SmsPartSendState(qs, many=True)

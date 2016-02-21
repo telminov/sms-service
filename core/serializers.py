@@ -7,11 +7,11 @@ from core import models
 
 class Sms(serializers.ModelSerializer):
     result = serializers.SerializerMethodField()
-    destination_address = serializers.CharField(max_length=20)
 
     class Meta:
         model = models.Sms
         fields = ('uuid', 'source_address', 'destination_address', 'message', 'validity_minutes', 'result')
+        extra_kwargs = {'destination_address': {'max_length': 20}}
 
     def get_result(self, obj):
         try:
@@ -40,7 +40,7 @@ class SmsSendError(serializers.ModelSerializer):
         fields = ('sms', 'message', 'code', 'description')
 
     @classmethod
-    def process_exception(cls, sms: models.Sms, ex: DevinoException) -> 'SmsSendError':
+    def register_exception(cls, sms: models.Sms, ex: DevinoException) -> 'SmsSendError':
         data = {
             'sms': sms.pk,
             'message': ex.message,
