@@ -8,4 +8,5 @@ script:
   - coverage run --source=core manage.py test core
 after_success:
   - coveralls
-  - "curl -H "Content-Type: application/json" --data '{"build": true}' -X POST https://registry.hub.docker.com/u/telminov/sms-service/trigger/81d9fcde-2359-4dd9-b078-ac24c47e2bf9/"
+  # dokerhub rebuil
+  - sucure: "gmTbelt0Qm2hNhZXpafbTedKxcKybiFlfHCVXT9DCSNPQZGYLhrQ2fIBdHeGSErdtHy7f6MJlYB2+cWgG6IVEcaqJ/GUhJWlof9RxrmCFAAdxQP8LX+0zOeRa3kY/FMWYlHR4yjZaJzHNR94Yn0kQj/vvKjfxP25TrGd6WsOEs/uQcCMnwUCoSjBP2978V6Ml7vjd90THpeee1FIctNsd7Emoh2rH7PuJkqW5FVbdYsEYxDlARcAdK1rlXZEp/RGnL+ZznDqJ9rjy0KgKS+aRapNXTEwvPUIV2/7aNSoAR5lPkvUzBQ50IwVGkwxuwwx+P+2Ev9GDzv9Nh2WmBTv71pJ/OejXLGPPi3sKu0tp1wdmM48p4HeECgPLUPXDtGuT+vBNrYTeEIkTQMLXueRjkOP8I06askWVC6Ji+EgpQvM387TLbZE3OgTjR93Lo8ytId4Lq8gDawqNHgEhrZqunCcKvh0Quks3gBUoo8JrtIc1iDrQ3QYHWgCN/FJUR3CLwVCnR14Xukfp0unTZhu9qhGYmbBtNrrzJs88URix0A90USO5+bp6dBNhAY5NmmdBSBBRZXi6W/446RyanZYSvFyz0klFjm4lWSAjB0vToNojJg+0DqhfXshH2qFp3HDsuj9RoCYszZSBoobF/D0SwlZXCzKWJfYMWvq2+G4njg="
