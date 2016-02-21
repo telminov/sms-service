@@ -4,3 +4,4 @@ sw-django-rest-auth==0.0.4
 sw-python-utils==0.0.5
 sw-python-sms-devino==0.0.2
 factory_boy==2.6.1
+gunicorn==19.4.5
