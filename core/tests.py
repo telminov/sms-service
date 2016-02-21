@@ -1,9 +1,7 @@
 # coding: utf-8
-import datetime
-
 from decimal import Decimal
-
 from django.test import mock
+from django.utils.timezone import now
 from rest_framework import test, status
 from rest_framework.reverse import reverse
 from sms_devino.client import SmsState
@@ -65,10 +63,10 @@ class GetStateTestCase(sw_rest_auth.tests.AuthTestCaseMixin, test.APITestCase):
             code=0,
             description='ok',
             price=Decimal(1.5),
-            creation_dt=datetime.datetime.now(),
-            submitted_dt=datetime.datetime.now(),
-            result_dt=datetime.datetime.now(),
-            reported_dt=datetime.datetime.now(),
+            creation_dt=now(),
+            submitted_dt=now(),
+            result_dt=now(),
+            reported_dt=now(),
         )
 
     def assertState(self, model_state: models.SmsPartSendState, sms_state: SmsState):
