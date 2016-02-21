@@ -8,3 +8,4 @@ script:
   - coverage run --source=core manage.py test core
 after_success:
   - coveralls
+  - "curl -H "Content-Type: application/json" --data '{"build": true}' -X POST https://registry.hub.docker.com/u/telminov/sms-service/trigger/81d9fcde-2359-4dd9-b078-ac24c47e2bf9/"
