@@ -5,13 +5,13 @@ from django.utils.timezone import now
 from rest_framework import test, status
 from rest_framework.reverse import reverse
 from sms_devino.client import SmsState
-import sw_rest_auth.tests
+import sw_rest_auth.tests.helpers
 from . import views
 from . import models
 from . import factories
 
 
-class SendTestCase(sw_rest_auth.tests.AuthTestCaseMixin, test.APITestCase):
+class SendTestCase(sw_rest_auth.tests.helpers.AuthTestCaseMixin, test.APITestCase):
     url = reverse(views.send)
     perm = 'SMS_SEND'
 
@@ -48,7 +48,7 @@ class SendTestCase(sw_rest_auth.tests.AuthTestCaseMixin, test.APITestCase):
         self.assertTrue(models.SmsSendError.objects.exists())
 
 
-class GetStateTestCase(sw_rest_auth.tests.AuthTestCaseMixin, test.APITestCase):
+class GetStateTestCase(sw_rest_auth.tests.helpers.AuthTestCaseMixin, test.APITestCase):
     url = reverse(views.get_state)
     perm = 'SMS_GET_STATE'
 
