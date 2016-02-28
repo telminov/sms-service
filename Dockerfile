@@ -3,6 +3,7 @@
 FROM telminov/ubuntu-14.04-python-3.5
 MAINTAINER telminov <telminov@soft-way.biz>
 
+EXPOSE 8080
 
 # directory for sqlite3 database
 VOLUME /data/
