@@ -25,6 +25,8 @@ WORKDIR /opt/sms-service
 RUN pip3 install -r requirements.txt
 RUN cp project/local_settings.sample.py project/local_settings.py
 
+COPY supervisor/prod.conf /etc/supervisor/conf.d/sms-service.conf
+
 CMD test "$(ls /conf/settings.py)" || cp project/local_settings.py /conf/local_settings.py; \
     rm project/local_settings.py; \
     ln -s /conf/local_settings.py project/local_settings.py; \
