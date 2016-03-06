@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework_swagger',
     'core',
 ]
 
@@ -120,6 +121,8 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
+
+STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
 STATIC_URL = '/static/'
 
 AUTH_SERVICE_CHECK_TOKEN_URL = 'http://127.0.0.1:8001/check_token/'

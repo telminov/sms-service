@@ -11,6 +11,9 @@ VOLUME /data/
 # django settings
 VOLUME /conf/
 
+# django static-files
+VOLUME /static/
+
 RUN apt-get update && \
     apt-get install -y \
                     vim \
@@ -29,6 +32,8 @@ COPY supervisor/prod.conf /etc/supervisor/conf.d/sms-service.conf
 
 CMD test "$(ls /conf/local_settings.py)" || cp project/local_settings.py /conf/local_settings.py; \
     rm project/local_settings.py; \
+    rm -rf static; ln -s /static static; \
     ln -s /conf/local_settings.py project/local_settings.py; \
     python3 ./manage.py migrate; \
+    python3 ./manage.py collectstatic --noinput; \
     /usr/bin/supervisord
