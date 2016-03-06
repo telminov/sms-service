@@ -1,7 +1,7 @@
-django==1.9.2
+django==1.9.4
 djangorestframework==3.3.2
 django-rest-swagger==0.3.5
-sw-django-rest-auth==0.0.6
+sw-django-rest-auth==0.0.11
 sw-python-utils==0.0.5
 sw-python-sms-devino==0.0.2
 factory_boy==2.6.1

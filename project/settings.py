@@ -138,6 +138,32 @@ REST_FRAMEWORK = {
     ),
 }
 
+SWAGGER_SETTINGS = {
+    'exclude_namespaces': [],
+    'api_version': '1',
+    'api_path': '/',
+    'enabled_methods': [
+        'get',
+        'post',
+        'put',
+        'patch',
+        'delete'
+    ],
+    'api_key': '',
+    'is_authenticated': False,
+    'is_superuser': False,
+    'unauthenticated_user': 'django.contrib.auth.models.AnonymousUser',
+    'permission_denied_handler': None,
+    'resource_access_handler': None,
+    'info': {
+        'contact': 'telminov@soft-way.biz',
+        'description': 'Sms service.',
+        'title': 'Devino SMS service',
+    },
+    'doc_expansion': 'none',
+    'token_type': 'TokenService',
+}
+
 DEVINO_LOGIN = 'tester'
 DEVINO_PASSWORD = '123'
 

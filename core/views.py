@@ -12,6 +12,16 @@ from . import models
 @api_view(['POST'])
 @permission_classes((CodePermission.decorate(code='SMS_SEND'),))
 def send(request):
+    """
+    Send sms resource
+    ---
+    serializer: serializers.Sms
+    responseMessages:
+        - code: 200
+        - code: 400
+        - code: 401
+        - code: 403
+    """
     sms_serializer = serializers.Sms(data=request.data)
     sms_serializer.is_valid(raise_exception=True)
     sms = sms_serializer.save()
@@ -41,6 +51,39 @@ def send(request):
 @api_view(['GET'])
 @permission_classes((CodePermission.decorate(code='SMS_GET_STATE'),))
 def get_state(request):
+    """
+    Get sms status
+    ---
+    parameters:
+        - name: sms
+          type: string
+          required: true
+          description: uuid of sent sms
+          paramType: query
+
+    type:
+        have_problems:
+            required: true
+            type: boolean
+            description: Have any of the sms parts delivery problems
+
+        all_delivered:
+            required: true
+            type: boolean
+            description: Have all of the sms parts delivered successfully
+
+        parts:
+            required: true
+            type: array
+            description: Detailed info about each of sms part
+
+
+    responseMessages:
+        - code: 200
+        - code: 400
+        - code: 401
+        - code: 403
+    """
     serializer = serializers.GetState(data=request.query_params)
     serializer.is_valid(raise_exception=True)
     sms = serializer.validated_data['sms']
