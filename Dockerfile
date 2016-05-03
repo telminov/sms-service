@@ -1,6 +1,6 @@
 # docker build -t telminov/sms-service .
 
-FROM telminov/ubuntu-14.04-python-3.5
+FROM g10k/filebeat
 MAINTAINER telminov <telminov@soft-way.biz>
 
 EXPOSE 8080
@@ -13,6 +13,9 @@ VOLUME /conf/
 
 # django static-files
 VOLUME /static/
+
+# django logs
+VOLUME /logs/
 
 RUN apt-get update && \
     apt-get install -y \
@@ -31,9 +34,11 @@ RUN cp project/local_settings.sample.py project/local_settings.py
 COPY supervisor/prod.conf /etc/supervisor/conf.d/sms-service.conf
 
 CMD test "$(ls /conf/local_settings.py)" || cp project/local_settings.py /conf/local_settings.py; \
-    rm project/local_settings.py; \
+    test "$(ls /conf/filebeat.yml)" || cp /etc/filebeat/filebeat.yml /conf/filebeat.yml; \
+    rm project/local_settings.py; ln -s /conf/local_settings.py project/local_settings.py; \
+    rm /etc/filebeat/filebeat.yml; ln -s /conf/filebeat.yml /etc/filebeat/filebeat.yml; \
     rm -rf static; ln -s /static static; \
-    ln -s /conf/local_settings.py project/local_settings.py; \
+    service filebeat start; \
     python3 ./manage.py migrate; \
     python3 ./manage.py collectstatic --noinput; \
     /usr/bin/supervisord
