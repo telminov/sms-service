@@ -1,4 +1,6 @@
 # coding: utf-8
+import logging
+
 from django.conf import settings
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -7,6 +9,8 @@ from core import serializers
 from sms_devino.client import DevinoClient, DevinoException
 from sw_rest_auth.permissions import CodePermission
 from . import models
+
+logger = logging.getLogger('sms_service')
 
 
 @api_view(['POST'])
@@ -26,6 +30,9 @@ def send(request):
     sms_serializer.is_valid(raise_exception=True)
     sms = sms_serializer.save()
 
+    destination_address = sms_serializer.data['destination_address']
+    logger.info('Create sms request', extra={'destination_address': destination_address})
+
     sms_client = DevinoClient(login=settings.DEVINO_LOGIN, password=settings.DEVINO_PASSWORD)
     try:
         result = sms_client.send_one(
@@ -34,6 +41,8 @@ def send(request):
             message=sms.message,
             validity_minutes=sms.validity_minutes,
         )
+        logger.info('Send sms', extra={'destination_address': destination_address})
+
         models.SmsSendResult.objects.create(sms=sms, is_success=True)
         for sms_id in result.sms_ids:
             models.SmsPart.objects.create(sms=sms, external_id=sms_id)
@@ -43,6 +52,7 @@ def send(request):
         error_serializer = serializers.SmsSendError.register_exception(sms, ex)
         error_data = error_serializer.data
         error_data['sms'] = sms_serializer.data
+        logger.warning('Send sms error', extra={'destination_address': destination_address}, exc_info=True)
         return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
 
     return Response(sms_serializer.data)
@@ -112,6 +122,7 @@ def get_state(request):
             error_data['code'] = ex.error.code
         if ex.error and ex.error.description:
             error_data['description'] = ex.error.description
+        logger.warning('Get sms error', extra={'sms_uuid': sms.uuid}, exc_info=True)
         return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
 
     qs = models.SmsPartSendState.objects.filter(sms_part__sms=sms)
@@ -122,4 +133,5 @@ def get_state(request):
         'all_delivered': all([s.code == 0 for s in qs]),
         'parts': state_serializer.data,
     }
+    logger.debug('Requested sms state', extra=result)
     return Response(result)
