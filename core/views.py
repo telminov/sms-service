@@ -103,6 +103,7 @@ def get_state(request):
     serializer.is_valid(raise_exception=True)
     sms = serializer.validated_data['sms']
 
+    # TODO: доработать так, чтобы в devino за результатами ходили, только если у СМС не конечный статус, в противном случае брать данные из локальной базы
     sms_client = DevinoClient(login=settings.DEVINO_LOGIN, password=settings.DEVINO_PASSWORD)
     try:
         for part in sms.parts.all():
