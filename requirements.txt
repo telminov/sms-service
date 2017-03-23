@@ -5,6 +5,7 @@ sw-django-rest-auth==0.0.15
 sw-python-utils==0.0.5
 sw-python-sms-devino==0.0.2
 factory_boy==2.6.1
+Faker==0.7.10
 gunicorn==19.4.5
 django-jenkins==0.18.1
 coverage==4.0.3
